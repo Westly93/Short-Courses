@@ -1,0 +1,54 @@
+{% if courses|length > 0 %} {% for course in courses %}
+<div
+  class="grid grid-cols-3 gap-12 my-3 border border-gray-500 shadow rounded p-4"
+>
+  <div class="col-span-2">
+    <div class="flex">
+      <h3 class="text-yellow-700 border-b border-b-gray-200 py-5 flex-1">
+        {{course.title}}
+      </h3>
+      <span class="py-5">{{ course.enrolled }}</span>
+    </div>
+
+    {% if course.instructor == user %}
+    <div class="flex">
+      <a
+        href="{% url 'app:edit_course' course.id %}"
+        class="text-[#059685] px-3"
+      >
+        <i class="fa-solid fa-pen-to-square"></i>
+      </a>
+      <a class="text-red-700 px-3">
+        <i
+          hx-target="#classes"
+          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+          hx-swap="innerHTML"
+          hx-delete="{% url 'app:delete_course' course.id %}"
+          class="fa-solid fa-trash-can cursor-pointer"
+        ></i>
+      </a>
+    </div>
+    {% endif %}
+  </div>
+  {% if user.is_teacher %}
+  <div class="">
+    <a href="{{course.link}}" class="bg-[#059685] px-2 py-1 rounded my-2 w-full"
+      >View Class</a
+    >
+    <button class="bg-[#386b39] px-2 py-1 rounded my-2 w-full">
+      Invite Students
+    </button>
+  </div>
+  {% else %}
+  <div class="">
+    <a
+      href="{{course.link}}"
+      class="hover:bg-[#059685] border border-[#059685] px-2 py-1 rounded my-2 w-full"
+      >Visit Class</a
+    >
+  </div>
+  {% endif %}
+</div>
+{% endfor %} {% else %}
+<div>You dont have courses</div>
+{% endif %}

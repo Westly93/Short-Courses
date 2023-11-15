@@ -1,0 +1,151 @@
+{% extends "base.html" %} {% load tailwind_filters %}
+<!---->
+{% load pdf_and_docx_to_png_filter %}
+<!--block title -->
+{% block title %} Proof Of Payment Detail {% endblock title %}
+<!--/block title -->
+{% block content %}
+<div class="max-w-[1024px] mx-auto my-10">
+  {{ redirect_to_login_immediately }}
+  <div class="max-w-2xl mx-auto rounded overflow-hidden shadow-lg">
+    {% if pop.file_extension == '.pdf' %}
+    <embed class="w-full" src="{{ pop.file.url }}" height="400" />
+    {% else %}
+    <img
+      class="w-full h-92"
+      src="{{pop.file.url}}"
+      alt="Sunset in the mountains"
+    />
+    {% endif %}
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">{{ pop.user.email }}</div>
+    </div>
+    <div class="px-6 pt-4 pb-2">
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >{{ pop.date_of_payment}}</span
+      >
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >{{ pop.status }}</span
+      >
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >{{ pop.amount}}</span
+      >
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >{{ pop.reference}}</span
+      >
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >{{ pop.bank_from}}</span
+      >
+      <span
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+        >{{ pop.bank_to}}</span
+      >
+    </div>
+    <div class="flex px-3">
+      {% if pop.status == 'Approved' or pop.status == 'Pending' %}
+      <form method="post" action="{% url 'accounts:approve_pop' pop.id %}">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          {% if pop.status == 'Pending' %} Confirm Payment {% else %} Authorize
+          Payment {% endif %}
+        </button>
+      </form>
+      <div x-data="{showModal: false}">
+        <button
+          @click="showModal= true"
+          type="button"
+          class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          Reject
+        </button>
+
+        <!-- Main modal -->
+        <div
+          x-show="showModal"
+          id="authentication-modal"
+          tabindex="-1"
+          aria-hidden="true"
+          class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        >
+          <div class="relative w-full max-w-md mx-auto max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <button
+                @click="showModal= false"
+                type="button"
+                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="authentication-modal"
+              >
+                <svg
+                  class="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span class="sr-only">Close modal</span>
+              </button>
+              <div class="px-6 py-6 lg:px-8">
+                <h3
+                  class="mb-4 text-xl font-medium text-gray-900 dark:text-white"
+                >
+                  POP Rejection
+                </h3>
+                <form
+                  class="space-y-6"
+                  method="post"
+                  action="{% url 'accounts:reject_pop' pop.id %}"
+                >
+                  {% csrf_token %}
+                  <div>
+                    <label
+                      for="reason"
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >Reason for rejecting POP</label
+                    >
+                    <textarea
+                      id="reason"
+                      name="reason"
+                      required
+                      rows="4"
+                      class="block p-2.5 w-full text-sm text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Write your reason here..."
+                    ></textarea>
+                  </div>
+                  <div>
+                    <button
+                      type="submit"
+                      class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 w-full"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--/Modal-->
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,7 @@
+{% extends 'base.html' %} {% block content %}
+<section>
+  {% for course in courses %}
+  <div>{{ course.title }}</div>
+  {% endfor %}
+</section>
+{% endblock content %}

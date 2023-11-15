@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% load tailwind_filters %}
+{% block title %}
+Register
+{% endblock title %}
+
+ {% block content %}
+<div class="max-w-lg mx-auto">
+  <form
+    method="post"
+    class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mx-auto"
+  >
+    <legend class="text-3xl p-4">Join Today</legend>
+    {% csrf_token %}
+    <div class="mb-4 p-4 flex flex-col">{{ form|crispy }}</div>
+    {% include 'app/partials/button.html' with title='register' %}
+    <p class="mt-3">
+      Already have an Account?
+      <a href="{% url 'accounts:login' %}" class="text-teal-700">Login</a>
+    </p>
+  </form>
+</div>
+{% endblock content %}

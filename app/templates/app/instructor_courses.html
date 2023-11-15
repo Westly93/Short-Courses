@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% load tailwind_filters%}{% block content %}
+<div class="">
+  <div class="flex justify-between mb-3">
+    <h2 class="uppercase font-semibold">Your Courses</h2>
+    <a class="bg-blue-700 px-4 py-2 rounded" href="{% url 'app:new_course' %}"
+      >New Course</a
+    >
+  </div>
+  <table
+    class="w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400 p-4"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="w-8/12 px-2 py-3">Course Title</th>
+        <th scope="col" class="w-2/12 px-2 py-3">Status</th>
+        <th scope="col" class="w-1/12 px-2 py-3">Edit</th>
+        <th scope="col" class="w-1/12 px-2 py-3">Delete</th>
+      </tr>
+    </thead>
+    <tbody id="classes">
+      {% include 'app/partials/classes.html' %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

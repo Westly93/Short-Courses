@@ -1,0 +1,7 @@
+{% if request.user.contacts.exists %}
+<!--Looping through contacts-->
+{% for contact in request.user.contacts.all %}
+<span>{{ contact.contact_phone}}</span>
+{% if not forloop.last %} , {% endif %} {% endfor %} {% else %}
+<span class="text-red-500"> No Contacts Yet </span>
+{% endif %}

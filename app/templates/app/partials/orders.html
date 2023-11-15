@@ -1,0 +1,76 @@
+{% if order.courses.exists %}
+<div class="relative overflow-x-auto">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="px-6 py-3">Product name</th>
+
+        <th scope="col" class="px-6 py-3">Category</th>
+        <th scope="col" class="px-6 py-3">status</th>
+        <th scope="col" class="px-6 py-3">Price</th>
+        <th scope="col" class="px-6 py-3">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in order.courses.all %}
+      <tr
+        id="order-{{order.id}}"
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+      >
+        <th
+          scope="row"
+          class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        >
+          {{ course.title }}
+        </th>
+
+        <td class="px-6 py-4">{{ course.category.name}}</td>
+        <td class="px-6 py-4">{{ order.status }}</td>
+        <td class="px-6 py-4">{{ course.price }}</td>
+        <td class="px-6 py-4 cursor-pointer">
+          <i
+            hx-target="#orders"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-swap="innerHTML"
+            hx-delete="{% url 'app:delete_order' course.id %}"
+            class="fa-solid fa-trash-can text-red-700"
+          ></i>
+        </td>
+      </tr>
+
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="flex justify-between my-4 bg-gray-400 py-4 rounded">
+  <p class="px-6">
+    <span class="font-semibold uppercase text-cyan-600">ZWL</span>
+    {{zwl_price}}
+  </p>
+  <p class="px-6">
+    <span class="font-semibold uppercase text-cyan-600">USD</span>
+    {{order.total}}
+  </p>
+</div>
+<div class="my-6 flex justify-between">
+  <div>
+    <a
+      href="{% url 'app:initiate_payment' %}"
+      class="bg-blue-700 py-2 px-4 rounded w-full"
+    >
+      Procced To checkout
+    </a>
+  </div>
+  <div>
+    <a
+      href="{% url 'accounts:proof_of_payment' %}"
+      class="hover:bg-teal-700 border border-teal-700 p-2 rounded"
+      >Upload POP
+    </a>
+  </div>
+</div>
+{% else %}
+<div>No orders Yet ...</div>
+{% endif %}

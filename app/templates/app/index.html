@@ -1,0 +1,107 @@
+{% extends 'base.html' %} {% load static %}
+<!--Title block -->
+{% block title %} Home {% endblock title %} {% block content %}
+<section
+  style="
+    background-image: linear-gradient(
+        to right,
+        rgba(29, 78, 216, 0.8),
+        rgba(149, 58, 204, 0.8),
+        rgba(251, 192, 45, 0.8)
+      ),
+      url({% static 'images/learner1.jpg' %});
+  "
+  class="h-screen w-full text-center mx-auto flex flex-col bg-cover justify-center bg-gradient-to-r from-blue-700 via-purple-500 to-pink-500"
+>
+  <div class="max-w-[1024px] mx-auto">
+    <div class="text-white max-w-[900px]">
+      <h2 class="lg:text-5xl text-2xl font-semibold mb-6">
+        Elevate Your Learning Journey with MSU Short Courses
+      </h2>
+      <p class="text-xl">
+        Explore a world of knowledge at your fingertips. Join MSU Short Courses
+        and access a diverse range of online courses, expert instructors, and
+        interactive learning experiences. Start your journey to success today!
+      </p>
+      <button
+        class="mt-6 bg-yellow-700 p-3 rounded hover:bg-black hover:text-yellow-700"
+      >
+        View Course
+      </button>
+    </div>
+    <!-- <div class="hidden md:block opacity-70">
+  <img class="h-auto max-w-full object-cover" src="{% static 'images/learner.jpg' %}">
+</div> -->
+  </div>
+</section>
+<div
+  class="grid p-10 gap-12 md:grid-cols-3 md:p-0 mt-[-3rem] max-w-[1024px] mx-auto"
+>
+  <div class="bg-white p-8 shadow my-3">
+    <h3 class="text-2xl mb-6 font-semibold text-center">
+      Diverse Course Catalog
+    </h3>
+    <p class="text-center">
+      Explore a wide range of courses covering topics from technology to arts,
+      designed to meet your unique learning needs.
+    </p>
+  </div>
+  <div class="bg-white p-8 shadow my-3">
+    <h3 class="text-2xl mb-6 font-semibold text-center">
+      Top-Notch Instructors
+    </h3>
+    <p class="text-center">
+      Learn from industry experts and passionate educators who are dedicated to
+      helping you succeed in your learning journey.
+    </p>
+  </div>
+  <div class="bg-white p-8 shadow my-3">
+    <h3 class="text-2xl mb-6 font-semibold text-center">
+      Flexible Learning Options
+    </h3>
+    <p class="text-center">
+      Enjoy the freedom to learn at your own pace, on your schedule, with our
+      convenient online courses.
+    </p>
+  </div>
+</div>
+<section class="">
+  <div
+    class="flex flex-col justify-center text-center mt-20 my-6 max-w-[600px] mx-auto mb-6"
+  >
+    <h2
+      class="lg:text-3xl text-xl text-yellow-500 uppercase font-semibold my-2"
+    >
+      Our Most Popular Courses
+    </h2>
+    <p class="">
+      Discover our top-rated courses, loved by learners worldwide. Gain
+      in-demand skills and knowledge from our most popular offerings, and join
+      the community of successful learners on their path to growth and
+      achievement.
+    </p>
+  </div>
+  <!-- <div class="my-3 grid grid-cols-3 gap-4 max-w-[1024px] mx-auto">-->
+  <div class="max-w-[1024px] mx-auto mt-10">
+    {% for course in courses %}
+
+    <div
+      class="my-4 border-b border-b-gray-400 shadow rounded grid grid-cols-3 py-4"
+    >
+      <div class="col-span-2">
+        <a
+          href="{% url 'app:course_detail' course.id %}"
+          class="py-10 text-yellow-500 uppercase px-3"
+          >{{ course.title}}</a
+        >
+      </div>
+      <div class="text-red-700 font-semibold">
+        <i class="fa-solid fa-dollar-sign"></i>{{ course.price }}
+      </div>
+      <div></div>
+    </div>
+
+    {% endfor %}
+  </div>
+</section>
+{% endblock content %}

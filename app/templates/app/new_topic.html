@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% load tailwind_filters%}{% block content %}
+<div class="">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!---->
+    {% include 'app/partials/legend.html' with name="New Topic" %}
+    <div>{{ form|crispy}}</div>
+    <div>{% include 'app/partials/button.html' with title='Add Topic' %}</div>
+  </form>
+</div>
+{% endblock content %}

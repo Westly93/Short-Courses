@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% load tailwind_filters %}
+<!--block title -->
+{% block title %} Audit Trail{% endblock title %}
+<!--/block title -->
+{% block content %}
+<section class="max-w-[1024px] mx-auto my-10">
+  <table id="example" class="display" style="width: 100%">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Doing What</th>
+        <th>When</th>
+      </tr>
+    </thead>
+    <tbody id="pops">
+      {% for adt in adt_list %}
+      <tr>
+        <td>{{ adt.user.email }}</td>
+        <td>{{ adt.action }}</td>
+        <td>{{ adt.when }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>User</th>
+        <th>Doing What</th>
+        <th>When</th>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+{% endblock content %} {% block scripts %}
+<script>
+  new DataTable("#example");
+</script>
+{% endblock scripts %}

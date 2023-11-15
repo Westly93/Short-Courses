@@ -1,0 +1,26 @@
+<div>
+  {% if is_ordered %}
+  {% if is_enrolled %}
+  <a
+    href="{{course.link}}"
+    class="border border-teal-500 hover:bg-teal-500 rounded p-2"
+    ></i>Start Learning</a
+  >
+  {% else %}
+  <a
+    href="{% url 'app:user_orders' %}"
+    class="border border-teal-500 hover:bg-teal-500 rounded p-2"
+    ><i class="fa-solid fa-cart-shopping"></i>View Cart</a
+  >
+  {% endif %}
+  {% else %}
+  <button
+    hx-get="{% url 'app:add_to_cart' course.id %}"
+    hx-swap="innerHTML delay:1s"
+    hx-target="#cart"
+    class="bg-green-700 rounded p-2"
+  >
+    <i class="fa-solid fa-cart-plus"></i> Add To Cart
+  </button>
+  {% endif %}
+</div>

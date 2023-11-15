@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% load tailwind_filters %}{% block content %}
+<section class="max-w-[1024px] mx-auto mt-6">
+  <h3 class="text-gray-500 text-2xl my-6">
+    Enroll Students to '{{ course.title }}'
+  </h3>
+  <form method="post">
+    {% csrf_token %}
+    <div>{{ form|crispy }}</div>
+    <div>{% include 'app/partials/button.html' with title='Enroll' %}</div>
+  </form>
+</section>
+{% endblock content %} {% block scripts %}
+<script>
+  $('select[name="student"]').select2();
+</script>
+{% endblock scripts %}

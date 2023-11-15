@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% load tailwind_filters %}
+{% block title %}
+Update Profile
+{% endblock title %}
+
+{% block content %}
+<div class="max-w-xl mx-auto">
+  <div class="mt-4 shadow p-4">
+    <div class="flex justify-center items-center">
+      <img
+        class="rounded-full w-20 h-20"
+        src="{{ user.profile.thumbnail.url }}"
+      />
+    </div>
+    <div class="mb-5">
+      <form
+        action="{% url 'accounts:profile-update' %}"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <div class="my-5">
+          <legend class="text-center border-bottom mb-5">Update Profile</legend>
+
+          <div class="flex flex-col">{{ u_form|crispy }}</div>
+          <div class="flex flex-col">{{ p_form|crispy }}</div>
+        </div>
+        {% include 'app/partials/button.html' with title='Updte Profile' %}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %} {% load tailwind_filters%}{% block content %}
+<div class="">
+  <div class="flex justify-between mb-3">
+    <h2 class="uppercase font-semibold">{{ course.title }} Topics</h2>
+    <a
+      class="bg-blue-700 px-4 py-2 rounded"
+      href="{% url 'app:new_topic' course.id %}"
+      >New Topic</a
+    >
+  </div>
+  <table
+    class="w-full table-fixed text-sm text-left text-gray-500 dark:text-gray-400 p-4"
+  >
+    <thead
+      class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+    >
+      <tr>
+        <th scope="col" class="w-10/12 px-2 py-3">Topic Title</th>
+        <th scope="col" class="w-1/12 px-2 py-3">Edit</th>
+        <th scope="col" class="w-1/12 px-2 py-3">delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for topic in course.topics.all %}
+      <tr
+        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+      >
+        <td class="px-2 py-4">
+          <a
+            class="text-teal-700"
+            href="{% url 'app:topic_lessons' course.id topic.id %}"
+            >{{ topic.title}}</a
+          >
+        </td>
+        <td class="px-2 py-4"><i class="fa-solid fa-pen-to-square"></i></td>
+        <td class="px-2 py-4"><i class="fa-solid fa-trash"></i></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %} Logout {% endblock title %}
+
+<!--block content-->
+{% block content %}
+<div class="max-w-[600px] mx-auto mt-6">
+  <p>
+    You are logged out,
+    <a class="text-teal-700" href="{% url 'accounts:login' %}">Login now </a>
+  </p>
+</div>
+{% endblock content %}

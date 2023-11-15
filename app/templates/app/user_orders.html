@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+<!--Block title -->
+{% block title %} My Cart {% endblock title %}
+<!--block content -->
+{% block content %}
+
+<section id="orders" class="mt-6 max-w-[1024px] mx-auto">
+  {% include 'app/partials/orders.html' %}
+</section>
+<!--Endblock content -->
+{% endblock content %}

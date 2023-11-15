@@ -1,0 +1,15 @@
+/courses/settings.py
+/cron
+credentials.json
+admin_token.json
+lecturer_token.json
+token.json
+creds.json
+quickstart.py
+__pycache__
+/theme
+/static
+/media
+/scripts
+/vscode 
+/staticfiles 

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+<!--Load unicorn-->
+{% load unicorn %}{% load mathfilters %}
+<!--block content -->
+{% block title %} {{ course.title }} {% endblock title %} 
+<!-- Block content -->
+{% block content %}
+<div class="max-w-[1024px] mx-auto my-10">
+  <section class="grid grid-cols-5 gap-10">
+    <div class="col-span-3">
+      <div class="flex justify-between">
+        <h3 class="uppercase font-semibold mb-6">{{ course.title }}</h3>
+        <p class="font-bold text-gray-600">
+          <span class="bg-green-500 px-2 py-1 rounded"><span class="font-semibold uppercase text-cyan-600">USD</span> {{ course.price }}</span>
+        </p>
+        
+      </div>
+      <div>
+        {% if course.featured_video  %}
+        <video class="w-full" autoplay controls>
+          <source src="{{ course.featured_video.url}}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {% endif %}
+        <div class="text-gray-500 text-md">
+        {{ course.description }}
+        </div>
+        <div class="mt-6 bg-gray-300 h-10 px-3 rounded flex items-center justify-between">
+          <p class="text-gray-600 font-semibold"><i class="fa-solid fa-graduation-cap"></i> {{ course.course_duration.days }} Days</p>
+          <p class="text-gray-600 font-semibold"><i class="fa-solid fa-clock"></i> Starts {{course.start_date}}</p>
+          <!--<p class="text-gray-600"><span class="font-semibold uppercase text-cyan-600">ZWL</span> {{zwl_price}}</p>-->
+          <!--<span class="px-2 text-gray-600 font-semibold">{{ course.start_date|timeuntil }} to go </span>-->
+        </div>
+        
+      </div>
+      {% if is_enrolled %}
+      <div class="my-6 flex">
+        <img class="h-20 w-20 text-center rounded-full mx-2" src="{{course.instructor.profile.thumbnail.url }}" />
+        <div class='px-3'>
+        <p class="text-gray-500">{{ course.instructor.first_name }} {{ course.instructor.last_name }}</p>
+        <p class="text-teal-600 hover:underline hover:cursor-pointer">{{ course.instructor.email }}</p>
+        {% if course.instructor.contacts.exists %}
+        <p>Contacts: <span>
+          {% for contact in course.instructor.contacts.all %}
+            {{ contact.phone_number }}
+          {% endfor %}
+        </span></p>
+        {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div id='cart' class="px-4">
+        {% include 'app/partials/cart.html' %}
+    </div>
+    </div>
+  </section>
+</div>
+{% endblock content %}

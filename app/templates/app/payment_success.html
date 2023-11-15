@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% block content %}
+<section class="max-w-[1024px] mx-auto">
+  <h2 class="text-center front-semibold uppercase text-3xl">Thank You</h2>
+  <div>
+    {% for course in order.courses.all %}
+    <!--Load partials-->
+    {% include 'app/partials/orders.html' %}
+
+    <!--/Load partials -->
+    {% endfor %}
+  </div>
+</section>
+{% endblock content %}

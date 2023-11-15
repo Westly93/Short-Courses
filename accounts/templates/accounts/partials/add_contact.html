@@ -1,0 +1,62 @@
+{% load tailwind_filters %}
+<div x-data="{showContactModal: true}">
+  <div
+    x-show="showContactModal"
+    id="contact-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden flex justify-center overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+  >
+    <div
+      @click.outside="showContactModal=false"
+      class="w-full max-w-xl max-h-full"
+    >
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <button
+          @click="showContactModal=false"
+          type="button"
+          class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+          data-modal-hide="authentication-modal"
+        >
+          <svg
+            class="w-3 h-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 14 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+            />
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+        <div class="px-6 py-6 lg:px-8">
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+            Add Contact
+          </h3>
+          <form
+            hx-encoding="multipart/form-data"
+            hx-post="{% url 'accounts:add_contact' %}"
+            hx-swap="innerHTML delay:1s"
+            hx-target="#contacts"
+            class="space-y-6"
+          >
+            {% csrf_token %} {{ form|crispy}}
+            <button
+              @click.debounce.100ms="showContactModal= false"
+              class="bg-teal-500 text-black px-4 py-2 rounded-md w-full"
+            >
+              add <i class="fa-solid fa-plus"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

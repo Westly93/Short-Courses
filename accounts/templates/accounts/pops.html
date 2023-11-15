@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% load tailwind_filters %}
+<!--block title -->
+{% block title %} Proof Of Payments {% endblock title %}
+<!--/block title -->
+{% block content %}
+<section class="max-w-[1024px] mx-auto my-10">
+  {{ redirect_to_login_immediately }}
+  <table id="example" class="display" style="width: 100%">
+    <thead>
+      <tr>
+        <th>Sender</th>
+        <th>Bank From</th>
+        <th>Bank To</th>
+        <th>Payment Method</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="pops">
+      {% for pop in pops %}
+      <tr>
+        <td>{{ pop.user.email }}</td>
+        <td>{{ pop.bank_from }}</td>
+        <td>{{ pop.bank_to }}</td>
+        <td>{{ pop.payment_method }}</td>
+        <td>{{ pop.amount }}</td>
+        <td>{{ pop.status }}</td>
+        <td>
+          <a
+            href="{% url 'accounts:pop_detail' pop.id %}"
+            class="border border-green-500 p-2 hover:bg-green-500 rounded"
+          >
+            <i class="fa-regular fa-eye"></i> View
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Sender</th>
+        <th>Bank From</th>
+        <th>Bank To</th>
+        <th>Payment Method</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+{% endblock content %} {% block scripts %}
+<script>
+  new DataTable("#example");
+</script>
+{% endblock scripts %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% load tailwind_filters%}
+{% block title %}
+New Course
+{% endblock title %}
+{% block content %}
+<div class="my-6 max-w-[1024px] mx-auto">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!---->
+    {% include 'app/partials/legend.html' with name="New Course" %}
+    <div>{{ form.media }}{{ form|crispy}}</div>
+    <div>{% include 'app/partials/button.html' with title='Add Course' %}</div>
+  </form>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script>
+  $('select[name="category"]').select2();
+</script>
+{% endblock scripts %}
