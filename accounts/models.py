@@ -100,7 +100,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-national_id_regex = r'^\d{8}[A-Za-z]\d{2}$'
+national_id_regex = r'^\d{8,9}[A-Za-z]\d{2}$'
 national_id_validator = RegexValidator(
     national_id_regex,
     'Enter a valid national ID. The format should be 8 digits followed by a letter and then 2 digits.'
@@ -166,7 +166,7 @@ class Profile(models.Model):
     nationality = CountryField(blank=True, null=True)
     city = models.CharField(max_length=255, null=True, blank=True)
     national_id = models.CharField(
-        max_length=11,
+        max_length=12,
         null=True,
         blank=True,
         unique=True,
